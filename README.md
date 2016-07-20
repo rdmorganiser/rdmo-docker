@@ -1,13 +1,11 @@
-Docker files for RDMO (https://github.com/rdmorganiser/rdmo)
-============================================================
+Docker files for [RDMO](https://github.com/rdmorganiser/rdmo)
+-------------------------------------------------------------
 
-Build docker image
-------------------
+### Build docker image
 
 docker build -t rdmo .
 
-Setup the application
----------------------
+### Setup the application
 
 1) Copy `production.py` to `local.py` (which is ignored by this git repository):
 
@@ -42,16 +40,15 @@ Setup the application
 The application should now be available at http://localhost:8000.
 
 
-Run the container to serve the application as a deamon
-------------------------------------------------------
+### Run the application as a deamon
 
-To start the application:
+#### Start the application
 
 ```
 docker run -d --name rdmo -p 127.0.0.1:8000:80 --add-host=dbhost:172.17.0.1 rdmo
 ```
 
-To stop it again:
+#### Stop the application
 
 ```
 docker stop rdmo
