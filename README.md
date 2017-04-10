@@ -1,13 +1,6 @@
 Docker files for [RDMO](https://github.com/rdmorganiser/rdmo)
 =============================================================
 
-Build docker image
-------------------
-
-```
-docker build -t rdmo .
-```
-
 Setup the application
 ---------------------
 
@@ -43,7 +36,11 @@ Setup the application
     docker-compose up
     ```
 
-The application should now be available at [http://localhost:8000](http://localhost:8000). All the steps from the [documentation](http://rdmo.readthedocs.io/en/latest/configuration/index.html) involving `manage.py` can be performed using `docker-compose run django python manage.py`.
+The application should now be available at [http://localhost:8000](http://localhost:8000). All steps from the [documentation](http://rdmo.readthedocs.io/en/latest/configuration/index.html) involving `manage.py` can be performed using:
+
+```
+docker-compose run django python manage.py COMMAND
+```
 
 
 Run the application as a deamon
