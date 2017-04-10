@@ -38,10 +38,11 @@ http://rdmo.readthedocs.io/en/latest/configuration/databases.html
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'name': 'rdmo_docker',
-        'HOST': 'docker',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'HOST': 'postgres',
+        'PORT': 5432,
     }
 }
 

@@ -1,11 +1,11 @@
 FROM python:2.7
+ENV PYTHONUNBUFFERED 1
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     apt-utils \
-    git \
-    npm nodejs-legacy \
+    build-essential libxml2-dev libxslt-dev git \
     python-dev python-pip virtualenv \
-    libxml2-dev libxslt-dev \
+    npm nodejs nodejs-legacy \
     pandoc \
     texlive \
     apache2 libapache2-mod-wsgi
@@ -16,15 +16,17 @@ RUN git clone https://github.com/rdmorganiser/rdmo
 
 WORKDIR rdmo
 
+RUN pip install --upgrade pip
 RUN pip install -r requirements/base.txt
 RUN pip install -r requirements/postgres.txt
+RUN pip install -r requirements/mysql.txt
 
 ADD local.py rdmo/settings/local.py
 ADD apache.conf /etc/apache2/sites-available/000-default.conf
 
-RUN mkdir bower_root static_root media_root static
+RUN mkdir components_root static_root media_root static
 
-RUN python manage.py bower_install -- --allow-root --no-input
+RUN python manage.py bower_install --allow-root
 RUN python manage.py collectstatic --no-input
 
 RUN chown -R www-data:www-data static_root media_root

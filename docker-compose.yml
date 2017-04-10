@@ -1,0 +1,10 @@
+version: '2'
+services:
+  postgres:
+    image: postgres
+  django:
+    build: .
+    ports:
+    - "8000:80"
+    depends_on:
+    - postgres
