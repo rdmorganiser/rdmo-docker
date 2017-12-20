@@ -1,35 +1,33 @@
-import os
-from .base import BASE_DIR, INSTALLED_APPS, AUTHENTICATION_BACKENDS, MIDDLEWARE_CLASSES
-
 '''
 Debug mode, don't use this in production
 '''
+
 DEBUG = False
 
 '''
-Secret key, use something random in production
+A secret key for a particular Django installation. This is used to provide
+cryptographic signing, and should be set to a unique, unpredictable value.
 '''
-# SECRET_KEY = 'this is not a very secret key'
+
+SECRET_KEY = 'this is not a very secret key'
 
 '''
 The list of URLs und which this application available
 '''
-ALLOWED_HOSTS = ['localhost']
+
+ALLOWED_HOSTS = ['localhost', 'ip6-localhost', '127.0.0.1', '[::1]']
 
 '''
-Base URL Path to this application, i.e. /path for http://exaple.com/path/
+The root url of your application, only needed when its not '/'
 '''
+
 # BASE_URL = '/path'
 
 '''
-The main language of this application.
+Language code and time zone
 '''
-# LANGUAGE_CODE = 'en-us'
-
-'''
-The timezone this application.
-'''
-# TIME_ZONE = 'Europe/Berlin'
+LANGUAGE_CODE = 'de-de'
+TIME_ZONE = 'Europe/Berlin'
 
 '''
 The database connection to be used, see also:
@@ -45,6 +43,24 @@ DATABASES = {
         'PORT': 5432,
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': '',
+#         'USER': '',
+#         'PASSWORD': '',
+#         'HOST': '',
+#         'PORT': '',
+#     }
+# }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': '',
+#     }
+# }
 
 '''
 E-Mail configuration, see also:
@@ -65,6 +81,8 @@ Allauth configuration, see also:
 http://rdmo.readthedocs.io/en/latest/configuration/authentication/allauth.html
 '''
 
+# from rdmo.core.settings import INSTALLED_APPS, AUTHENTICATION_BACKENDS
+#
 # ACCOUNT = True
 # ACCOUNT_SIGNUP = True
 # SOCIALACCOUNT = False
@@ -72,7 +90,7 @@ http://rdmo.readthedocs.io/en/latest/configuration/authentication/allauth.html
 # INSTALLED_APPS += [
 #     'allauth',
 #     'allauth.account',
-#     'allauth.socialaccount'
+#     'allauth.socialaccount',
 #     'allauth.socialaccount.providers.facebook',
 #     'allauth.socialaccount.providers.github',
 #     'allauth.socialaccount.providers.google',
@@ -87,10 +105,11 @@ LDAP, see also:
 http://rdmo.readthedocs.io/en/latest/configuration/authentication/ldap.html
 '''
 
-# PROFILE_UPDATE = False
-#
 # import ldap
 # from django_auth_ldap.config import LDAPSearch
+# from rdmo.core.settings import AUTHENTICATION_BACKENDS
+#
+# PROFILE_UPDATE = False
 #
 # AUTH_LDAP_SERVER_URI = "ldap://ldap.example.com"
 # AUTH_LDAP_BIND_DN = "cn=admin,dc=ldap,dc=example,dc=com"
@@ -113,6 +132,8 @@ Shibboleth, see also:
 http://rdmo.readthedocs.io/en/latest/configuration/authentication/shibboleth.html
 '''
 
+# from rdmo.core.settings import INSTALLED_APPS, AUTHENTICATION_BACKENDS, MIDDLEWARE_CLASSES
+#
 # SHIBBOLETH = True
 # PROFILE_UPDATE = False
 #
@@ -143,19 +164,108 @@ http://rdmo.readthedocs.io/en/latest/configuration/themes.html
 # THEME_DIR = os.path.join(BASE_DIR, 'theme')
 
 '''
+Export Formats
+'''
+
+# from django.utils.translation import ugettext_lazy as _
+# EXPORT_FORMATS = (
+#     ('pdf', _('PDF')),
+#     ('rtf', _('Rich Text Format')),
+#     ('odt', _('Open Office')),
+#     ('docx', _('Microsoft Office')),
+#     ('html', _('HTML')),
+#     ('markdown', _('Markdown')),
+#     ('mediawiki', _('mediawiki')),
+#     ('tex', _('LaTeX'))
+# )
+
+'''
 Cache, see also:
 http://rdmo.readthedocs.io/en/latest/configuration/cache.html
 '''
 
-# CACHES = {
-#     'default': {
-#         'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-#         'LOCATION': '127.0.0.1:11211',
-#         'KEY_PREFIX': 'rdmo_default'
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': '127.0.0.1:11211',
+        'KEY_PREFIX': 'rdmo_default'
+    },
+    'api': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': '127.0.0.1:11211',
+        'KEY_PREFIX': 'rdmo_api'
+    },
+}
+
+'''
+Logging configuration
+'''
+
+# import os
+# from . import BASE_DIR
+
+# LOGGING_DIR = os.path.join(BASE_DIR, 'log')
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': True,
+#     'filters': {
+#         'require_debug_false': {
+#             '()': 'django.utils.log.RequireDebugFalse'
+#         },
+#         'require_debug_true': {
+#             '()': 'django.utils.log.RequireDebugTrue'
+#         }
 #     },
-#     'api': {
-#         'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-#         'LOCATION': '127.0.0.1:11211',
-#         'KEY_PREFIX': 'rdmo_api'
+#     'formatters': {
+#         'default': {
+#             'format': '[%(asctime)s] %(levelname)s: %(message)s'
+#         },
+#         'name': {
+#             'format': '[%(asctime)s] %(levelname)s %(name)s: %(message)s'
+#         },
+#         'console': {
+#             'format': '[%(asctime)s] %(message)s'
+#         }
 #     },
+#     'handlers': {
+#         'mail_admins': {
+#             'level': 'ERROR',
+#             'filters': ['require_debug_false'],
+#             'class': 'django.utils.log.AdminEmailHandler'
+#         },
+#         'error_log': {
+#             'level': 'ERROR',
+#             'class':'logging.FileHandler',
+#             'filename': os.path.join(LOGGING_DIR, 'error.log'),
+#             'formatter': 'default'
+#         },
+#         'rdmo_log': {
+#             'level': 'DEBUG',
+#             'class':'logging.FileHandler',
+#             'filename': os.path.join(LOGGING_DIR, 'rdmo.log'),
+#             'formatter': 'name'
+#         },
+#         'console': {
+#             'level': 'DEBUG',
+#             'filters': ['require_debug_true'],
+#             'class': 'logging.StreamHandler',
+#             'formatter': 'console'
+#         }
+#     },
+#     'loggers': {
+#         'django': {
+#             'handlers': ['console'],
+#             'level': 'INFO',
+#         },
+#         'django.request': {
+#             'handlers': ['mail_admins', 'error_log'],
+#             'level': 'ERROR',
+#             'propagate': True
+#         },
+#         'rdmo': {
+#             'handlers': ['rdmo_log'],
+#             'level': 'DEBUG',
+#             'propagate': False
+#         }
+#     }
 # }

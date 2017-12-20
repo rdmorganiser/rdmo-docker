@@ -5,31 +5,34 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     apt-utils \
     build-essential libxml2-dev libxslt-dev git \
     python-dev python-pip virtualenv \
-    npm nodejs nodejs-legacy \
     pandoc \
     texlive \
-    apache2 libapache2-mod-wsgi
-
-RUN npm -g install bower
-
-RUN git clone https://github.com/rdmorganiser/rdmo
-
-WORKDIR rdmo
+    apache2 libapache2-mod-wsgi \
+    memcached
 
 RUN pip install --upgrade pip
-RUN pip install -r requirements/base.txt
-RUN pip install -r requirements/postgres.txt
-RUN pip install -r requirements/mysql.txt
+RUN pip install --upgrade wheel
+RUN pip install --upgrade setuptools
+RUN pip install rdmo
+RUN pip install psycopg2
+RUN pip install python-memcached
 
-ADD local.py rdmo/settings/local.py
-ADD apache.conf /etc/apache2/sites-available/000-default.conf
+RUN useradd -m -d /srv/rdmo -s /bin/bash rdmo
 
-RUN mkdir components_root static_root media_root static
+USER rdmo
 
-RUN python manage.py bower_install --allow-root
+RUN git clone https://github.com/rdmorganiser/rdmo-app /srv/rdmo/rdmo-app
+
+WORKDIR /srv/rdmo/rdmo-app
+
+ADD local.py config/settings/local.py
+
+RUN python manage.py download_vendor_files
 RUN python manage.py collectstatic --no-input
 
-RUN chown -R www-data:www-data static_root media_root
+USER root
+
+ADD apache.conf /etc/apache2/sites-available/000-default.conf
 
 ENV APACHE_RUN_USER www-data
 ENV APACHE_RUN_GROUP www-data
