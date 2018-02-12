@@ -1,59 +1,16 @@
 Docker files for [RDMO](https://github.com/rdmorganiser/rdmo)
 =============================================================
 
-Setup the application
----------------------
+The repository contains two dockerfiles that can be used to build RDMO dockers. They differ in the http server they use. One of them uses Nginx and the other one Apache.
 
-1. Copy `sample.local.py` to `local.py` (which is ignored by this git repository):
+### How to build and run
+The ```build-and-run.sh``` can be used to create the docker images and automatically run them after a successful build.
 
-    ```
-    cp sample.local.py local.py
-    ```
-
-    and edit the file accourding to your particular setup. Please see the [documentation](http://rdmo.readthedocs.io/en/latest/configuration/index.html) for more information about configuring RDMO.
-
-2. Build the docker image using:
-
-    ```
-    docker-compose build
-    ```
-
-3. Setup the database
-
-    ```
-    docker-compose run django python manage.py migrate
-    ```
-
-4. Create and admin user
-
-    ```
-    docker-compose run django python manage.py createsuperuser
-    ```
-
-5. Run the container for a test
-
-    ```
-    docker-compose up
-    ```
-
-The application should now be available at [http://localhost:8000](http://localhost:8000). All steps from the [documentation](http://rdmo.readthedocs.io/en/latest/configuration/index.html) involving `manage.py` can be performed using:
-
+If you prefer to do all this manually use the following command examples as an orientation.
 ```
-docker-compose run django python manage.py COMMAND
+sudo docker build -t ${tag} -f ${dockerfile} .
+sudo docker run -d --publish ${port}:80 --name ${tag} ${tag}
 ```
 
-
-Run the application as a deamon
--------------------------------
-
-### Start the application
-
-```
-docker-compose start
-```
-
-### Stop the application
-
-```
-docker-compose stop
-```
+### Note:
+Please keep in mind that the data you enter into RDMO are stored in an sqllite db inside the docker container. If you remove the container your data are gone. If you are planning to remove the docker container and you want to keep your data you should save the relevant files.

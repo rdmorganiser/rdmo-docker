@@ -1,0 +1,56 @@
+FROM ubuntu:16.04
+
+RUN apt update -y
+
+# install python3 and build dependencies
+RUN apt install -y \
+  python3 \
+  python3-dev \
+  python3-pip \
+  build-essential \
+  git \
+  libxml2-dev \
+  libxslt-dev \
+  zlib1g-dev \
+  pandoc
+
+# symbolic links
+RUN ln -s /usr/bin/python3 /usr/bin/python
+RUN ln -s /usr/bin/pip3 /usr/bin/pip
+
+# pip upgrade and rdmo installation
+RUN pip install --upgrade pip
+RUN pip install --upgrade wheel
+RUN pip install --upgrade setuptools
+RUN pip install rdmo
+
+# install nginx
+RUN apt install -y nginx
+RUN mkdir -p /etc/nginx/sites-available
+COPY ./config/nginx-default.conf /etc/nginx/sites-available/default
+
+# service setup
+COPY ./config/rdmo.service /etc/systemd/system/rdmo.service
+RUN chmod 0755 /etc/systemd/system/rdmo.service
+
+# create and change user
+RUN useradd -m -d /srv/rdmo -s /bin/bash rdmo
+USER rdmo
+
+# rdmo install and setup
+RUN git clone https://github.com/rdmorganiser/rdmo-app /srv/rdmo/rdmo-app
+WORKDIR /srv/rdmo/rdmo-app
+COPY ./config/local_template.py /srv/rdmo/rdmo-app/config/settings/local.py
+RUN python manage.py migrate
+RUN python manage.py create_admin_user
+RUN python manage.py download_vendor_files
+USER root
+RUN pip install -r /srv/rdmo/rdmo-app/requirements/gunicorn.txt
+USER rdmo
+RUN python manage.py collectstatic --no-input
+
+# running everything
+USER root
+EXPOSE 80
+COPY ./run/drun_nginx.sh /
+CMD ["/drun_nginx.sh"]

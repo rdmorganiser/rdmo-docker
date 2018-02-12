@@ -4,6 +4,7 @@ Debug mode, don't use this in production
 
 DEBUG = False
 
+
 '''
 A secret key for a particular Django installation. This is used to provide
 cryptographic signing, and should be set to a unique, unpredictable value.
@@ -34,15 +35,16 @@ The database connection to be used, see also:
 http://rdmo.readthedocs.io/en/latest/configuration/databases.html
 '''
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'HOST': 'postgres',
-        'PORT': 5432,
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': '',
+#         'USER': '',
+#         'PASSWORD': '',
+#         'HOST': '',
+#         'PORT': '',
+#     }
+# }
 
 # DATABASES = {
 #     'default': {
@@ -184,18 +186,18 @@ Cache, see also:
 http://rdmo.readthedocs.io/en/latest/configuration/cache.html
 '''
 
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-        'LOCATION': '127.0.0.1:11211',
-        'KEY_PREFIX': 'rdmo_default'
-    },
-    'api': {
-        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-        'LOCATION': '127.0.0.1:11211',
-        'KEY_PREFIX': 'rdmo_api'
-    },
-}
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+#         'LOCATION': '127.0.0.1:11211',
+#         'KEY_PREFIX': 'rdmo_default'
+#     },
+#     'api': {
+#         'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+#         'LOCATION': '127.0.0.1:11211',
+#         'KEY_PREFIX': 'rdmo_api'
+#     },
+# }
 
 '''
 Logging configuration
