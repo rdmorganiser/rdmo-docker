@@ -12,7 +12,8 @@ RUN apt install -y \
   libxml2-dev \
   libxslt-dev \
   zlib1g-dev \
-  pandoc
+  pandoc \
+  curl
 
 # symbolic links
 RUN ln -s /usr/bin/python3 /usr/bin/python
@@ -46,7 +47,10 @@ RUN python manage.py create_admin_user
 RUN python manage.py download_vendor_files
 RUN python manage.py collectstatic --no-input
 
-# running everything
+# check and run
+HEALTHCHECK --timeout=5s --interval=10s --retries=3 \
+   CMD curl -f http://localhost:80 || exit 1
+
 USER root
 EXPOSE 80
 COPY ./run/drun_apache.sh /
