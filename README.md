@@ -1,10 +1,12 @@
-Docker files for [RDMO](https://github.com/rdmorganiser/rdmo)
-=============================================================
+_NOTE: These docker files should be used for testing purposes only. They are not suited for prodution._
+
+
+# Docker files for [RDMO](https://github.com/rdmorganiser/rdmo)
 
 The repository contains two dockerfiles that can be used to build RDMO dockers. They differ in the http server they use. One of them uses Nginx and the other one Apache.
 
 ### How to build and run
-The ```build-and-run.sh``` can be used to create the docker images and automatically run them after a successful build.
+The `build-and-run.sh` can be used to create the docker images and automatically run them after a successful build.
 
 If you prefer to do all this manually use the following command examples as an orientation.
 ```
