@@ -14,5 +14,4 @@ sudo docker build -t ${tag} -f ${dockerfile} .
 sudo docker run -d --publish ${port}:80 --name ${tag} ${tag}
 ```
 
-### Note:
 Please keep in mind that the data you enter into RDMO are stored in an sqllite db inside the docker container. If you remove the container your data are gone. If you are planning to remove the docker container and you want to keep your data you should save the relevant files.
