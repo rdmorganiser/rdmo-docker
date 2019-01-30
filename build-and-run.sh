@@ -12,7 +12,7 @@ function buildandrun(){
     echo -e "\nBuilding ${tag}..."
     sudo docker build -t ${tag} -f ${fn} .
     sudo docker run -d \
-        --publish ${port}:80 \
+        --publish 127.0.0.1:${port}:80 \
         --name ${tag} \
         ${tag}
 }
@@ -38,6 +38,8 @@ if [[ ${input} == "a" ]]; then
         port=$(echo "scale=0; ${baseport}+${i}" | bc)
         buildandrun ${arr[${i}]} ${port}
     done
+elif [[ "${input}" =~ ^dockerfile_ ]]; then
+    buildandrun ${input} ${baseport}
 else
     buildandrun ${arr[${input}]} ${baseport}
 fi

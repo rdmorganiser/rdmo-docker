@@ -1,0 +1,13 @@
+language: bash
+
+services:
+    - docker
+
+env:
+    matrix:
+        - DOCKERFILE=dockerfile_apache
+        - DOCKERFILE=dockerfile_nginx
+
+script:
+    - ./build-and-run.sh -b ${DOCKERFILE}
+    - ./testing/check_container_health.sh
