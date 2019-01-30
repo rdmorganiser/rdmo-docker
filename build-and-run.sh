@@ -3,6 +3,7 @@
 # settings
 baseport="8181"
 
+
 function buildandrun(){
     fn=${1}
     port=${2}
@@ -16,15 +17,20 @@ function buildandrun(){
         ${tag}
 }
 
-# display selection menu
 arr=($(find . -regex ".*\/dockerfile.*"))
+
+# display selection menu or don't
+if [[ "${1}" != "-b" ]]; then
 echo -e "\nAvailable docker files..."
-for ((i=0; i<${#arr[@]}; i++)); do
-    echo -e "${i}\t${arr[${i}]}"
-done
-echo -e "a\tfor all of them"
-echo ""
-read -p "Which one do you want to build?   " input
+    for ((i=0; i<${#arr[@]}; i++)); do
+        echo -e "${i}\t${arr[${i}]}"
+    done
+    echo -e "a\tfor all of them"
+    echo ""
+    read -p "Which one do you want to build?   " input
+else
+    input="${2}"
+fi
 
 # building
 if [[ ${input} == "a" ]]; then

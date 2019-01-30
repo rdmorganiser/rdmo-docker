@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM debian:9
 
 # install python3 and build dependencies
 RUN apt update -y && apt install -y \
@@ -31,6 +31,9 @@ COPY ./config/nginx-default.conf /etc/nginx/sites-available/default
 # service setup
 COPY ./config/rdmo.service /etc/systemd/system/rdmo.service
 RUN chmod 0755 /etc/systemd/system/rdmo.service
+
+# undate config
+RUN sed -i -e 's/error_log\s.*/error_log \/dev\/stderr;/g' /etc/nginx/nginx.conf
 
 # create and change user
 RUN useradd -m -d /srv/rdmo -s /bin/bash rdmo

@@ -1,4 +1,7 @@
-FROM ubuntu:16.04
+FROM debian:9
+
+ENV APACHE_SERVER_NAME="rdmo_apache"
+
 
 # install python3 and build dependencies
 RUN apt update -y && apt install -y \
@@ -33,6 +36,10 @@ ENV APACHE_LOG_DIR /var/log/apache2
 ENV APACHE_PID_FILE=/var/run/apache2.pid
 ENV APACHE_LOCK_DIR=/var/lock/apache2
 COPY ./config/apache-default.conf /etc/apache2/sites-available/000-default.conf
+
+# update config
+RUN sed -i -e 's/ErrorLog\s.*/ErrorLog \/dev\/stderr/g' /etc/apache2/apache2.conf
+RUN echo "ServerName ${APACHE_SERVER_NAME}" >> /etc/apache2/apache2.conf
 
 # rdmo setup
 RUN useradd -m -d /srv/rdmo -s /bin/bash rdmo
