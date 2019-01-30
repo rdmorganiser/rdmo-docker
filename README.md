@@ -1,6 +1,6 @@
 _NOTE: These docker files should be used for testing purposes only. They are not suited for prodution._
 
-[![Build Status](https://travis-ci.org/rdmorganiser/rdmo-docker.svg?branch=master)(https://travis-ci.org/rdmorganiser/rdmo-docker)
+[![Build Status](https://travis-ci.org/rdmorganiser/rdmo-docker.svg?branch=master)](https://travis-ci.org/rdmorganiser/rdmo-docker)
 
 # Docker files for [RDMO](https://github.com/rdmorganiser/rdmo)
 
